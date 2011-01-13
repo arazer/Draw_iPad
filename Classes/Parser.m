@@ -162,6 +162,8 @@
 		counter++;
 		NSString* varNumber = [[lineArray objectAtIndex:counter] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"[]"]];
 		
+		
+		//Bug: adding it twice, cause of every x is saved in array..
 		if ([varNode varArray] == nil) {
 			[varNode setVarArray:[[NSMutableArray alloc] initWithCapacity:1]];
 			NSMutableArray* varNumberArray = [varNode varArray];
@@ -170,6 +172,7 @@
 		
 		NSMutableArray* varNumberArray = [varNode varArray];
 		NSLog(@"%@", varNumberArray);
+		
 		[varNumberArray addObject:varNumber];
 
 		//NSLog(@"%@", varNumber);
@@ -189,9 +192,11 @@
 - (void)allOut {
 	ModuleNode* modules = [data objectAtIndex:0];
 	NSMutableArray* variables = [modules variables];
-	VariableNode* var = [variables objectAtIndex:5];
+	VariableNode* var = [variables objectAtIndex:2];
 	NSLog(@"%@",[var varName]);
-	NSLog(@"%@",[var varArray]);
+	NSMutableArray* mutA = [var varArray];
+	int c = [mutA count];
+	NSLog(@"%d",c);
 }
 
 /*
