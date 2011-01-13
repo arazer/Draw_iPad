@@ -62,8 +62,8 @@
 	
 	
 		for (int j = 0; j < [stringConvertedInWordArray count]; j++) {
-			NSString* stringInArray = [stringConvertedInWordArray objectAtIndex:j];
-			[wordContainer addObject:stringInArray];
+			//NSString* stringInArray = [stringConvertedInWordArray objectAtIndex:j];
+			[wordContainer addObject:[stringConvertedInWordArray objectAtIndex:j]];
 		}
 		[finalArrayLineWords addObject:wordContainer];
 	}
@@ -104,13 +104,13 @@
 			}
 			
 			if ([string isEqual:@"module"]) {
-				i++;
-				[self addModToData:textArray :i++];
+				//i++;
+				[self addModToData:textArray :i+1];
 			}
 			
 			if ([string isEqual:@"$var"]) {
-				i++;
-				[self addVarToData:textArray :i];
+				//i++;
+				[self addVarToData:textArray :i+1];
 				
 			}
 			
@@ -153,11 +153,11 @@
 	
 	counter++;
 	
-	NSString* varName = [lineArray objectAtIndex:counter];
 
 
 	//not the best code..
 	if (![[lineArray objectAtIndex:counter+1] isEqual:@"$end"]) {
+		/*
 		//NSLog(@"%@", varName);
 		counter++;
 		NSString* varNumber = [[lineArray objectAtIndex:counter] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"[]"]];
@@ -176,7 +176,16 @@
 		[varNumberArray addObject:varNumber];
 
 		//NSLog(@"%@", varNumber);
+		*/
+		
+		NSString* varName = [lineArray objectAtIndex:counter];
+	
+		
+
+	} else {
+		NSString* varName = [lineArray objectAtIndex:counter];
 	}
+
 	
 
 	[varNode setVarName:varName];
