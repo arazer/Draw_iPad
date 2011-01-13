@@ -119,6 +119,7 @@
 			break;
 		}
 	}
+	[self allOut];
 	
 }
 
@@ -157,7 +158,7 @@
 
 	//not the best code..
 	if (![[lineArray objectAtIndex:counter+1] isEqual:@"$end"]) {
-		NSLog(@"%@", varName);
+		//NSLog(@"%@", varName);
 		counter++;
 		NSString* varNumber = [[lineArray objectAtIndex:counter] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"[]"]];
 		
@@ -168,9 +169,10 @@
 		}
 		
 		NSMutableArray* varNumberArray = [varNode varArray];
+		NSLog(@"%@", varNumberArray);
 		[varNumberArray addObject:varNumber];
 
-		NSLog(@"%@", varNumber);
+		//NSLog(@"%@", varNumber);
 	}
 	
 
@@ -182,6 +184,14 @@
 	[variablesArray addObject:varNode];
 	
 	
+}
+
+- (void)allOut {
+	ModuleNode* modules = [data objectAtIndex:0];
+	NSMutableArray* variables = [modules variables];
+	VariableNode* var = [variables objectAtIndex:5];
+	NSLog(@"%@",[var varName]);
+	NSLog(@"%@",[var varArray]);
 }
 
 /*

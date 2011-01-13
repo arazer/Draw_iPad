@@ -29,6 +29,8 @@
 - (void)addModToData:(NSMutableArray*)lineArray :(int) counter;
 - (void)addVarToData:(NSMutableArray*)lineArray :(int) counter;
 
+- (void)allOut;
+
 @property(nonatomic, retain) NSMutableArray* data;
 
 @end
