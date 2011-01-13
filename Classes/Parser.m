@@ -142,8 +142,6 @@
 	ModuleNode* modNode = [data objectAtIndex:0];
 	NSMutableArray* variablesArray = [modNode variables];
 	
-	VariableNode* varNode = [[VariableNode alloc] init];
-
 	NSString* varType = [[NSString alloc] initWithFormat:@"%@%@",[lineArray objectAtIndex:counter], [lineArray objectAtIndex:counter+1]];
 	
 	counter++;
@@ -153,49 +151,69 @@
 	
 	counter++;
 	
+	NSString* varName = [lineArray objectAtIndex:counter];
 
 
-	//not the best code..
+	//if variable is an array variable
 	if (![[lineArray objectAtIndex:counter+1] isEqual:@"$end"]) {
-		/*
-		//NSLog(@"%@", varName);
+		
 		counter++;
+		
 		NSString* varNumber = [[lineArray objectAtIndex:counter] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"[]"]];
 		
+		int indexBehindActual = [variablesArray count] - 1; 
+		VariableNode* variableBehindActual = [variablesArray objectAtIndex:indexBehindActual];
 		
-		//Bug: adding it twice, cause of every x is saved in array..
-		if ([varNode varArray] == nil) {
+		if ([[variableBehindActual varName] isEqual:varName]) {
+			
+			//here if there is the same variable as it was before
+						
+			NSMutableArray* varArray = [variableBehindActual varArray];
+			
+			VariableNode* varNode = [[VariableNode alloc] init];
+			
+			[varNode setVarName:[[NSString alloc] initWithFormat:@"%@%@", varName, varNumber]];
+			[varNode setSymbol:varSymbol];
+			[varNode setSignals:[[NSMutableArray alloc] initWithCapacity:1]];
+			
+			[varArray addObject:varNode];
+				
+		} else {
+			
+			//here if theres a new array variable
+			
+			VariableNode* varNode = [[VariableNode alloc] init];
+			
+			[varNode setVarName:[[NSString alloc] initWithFormat:@"%@", varName]];
+			[varNode setType:varType];
+			
+			VariableNode* varArrayNode = [[VariableNode alloc] init];
+			
+			[varArrayNode setVarName:[[NSString alloc] initWithFormat:@"%@%@", varName, varNumber]];
+			[varArrayNode setSymbol:varSymbol];
+			[varArrayNode setSignals:[[NSMutableArray alloc] initWithCapacity:1]];
+			
+			//might be strange, but there is no other way, i think
 			[varNode setVarArray:[[NSMutableArray alloc] initWithCapacity:1]];
-			NSMutableArray* varNumberArray = [varNode varArray];
-			[varNumberArray addObject:varNumber];
+			NSMutableArray* varArray = [varNode varArray];
+			
+			[varArray addObject:varArrayNode];
+			[variablesArray addObject:varNode];
+
 		}
 		
-		NSMutableArray* varNumberArray = [varNode varArray];
-		NSLog(@"%@", varNumberArray);
-		
-		[varNumberArray addObject:varNumber];
-
-		//NSLog(@"%@", varNumber);
-		*/
-		
-		NSString* varName = [lineArray objectAtIndex:counter];
-	
-		
-
 	} else {
-		NSString* varName = [lineArray objectAtIndex:counter];
+		
+		VariableNode* varNode = [[VariableNode alloc] init];
+
+		[varNode setVarName:varName];
+		[varNode setType:varType];
+		[varNode setSymbol:varSymbol];
+		[varNode setSignals:[[NSMutableArray alloc] initWithCapacity:1]];
+
+		[variablesArray addObject:varNode];
+	
 	}
-
-	
-
-	[varNode setVarName:varName];
-	[varNode setType:varType];
-	[varNode setSymbol:varSymbol];
-	[varNode setSignals:[[NSMutableArray alloc] initWithCapacity:1]];
-
-	[variablesArray addObject:varNode];
-	
-	
 }
 
 - (void)allOut {
@@ -205,13 +223,21 @@
 	NSLog(@"%@",[var varName]);
 	NSMutableArray* mutA = [var varArray];
 	int c = [mutA count];
+	
+	VariableNode* varNodeInArray = [mutA objectAtIndex:1];
+	
+	NSLog(@"Name: %@ und Symbol: %@",[varNodeInArray varName], [varNodeInArray symbol]);
 	NSLog(@"%d",c);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
-
-/*
-- (CFTreeContext)getTree {
-   return tree;
-}
-*/
 
 @end
