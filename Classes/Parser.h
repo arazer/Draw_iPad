@@ -13,8 +13,8 @@
 
 
 @interface Parser : NSObject {
-	int counterOne;
-	int counterTwo;
+	int counterLines;
+	int counterWords;
 	
 	NSMutableArray* data;
 }
@@ -25,10 +25,14 @@
 - (NSMutableArray*) convertFileToMutableArray:(NSString*) filePath;
 - (void) makeTree:(NSMutableArray*)vcdArray;
 
-- (void) createHeadDatastructure:(NSMutableArray*)vcdArray :(int) counterO;
+- (void) createHeadDatastructure:(NSMutableArray*)vcdArray :(int) counterL;
 - (void) addModToData:(NSMutableArray*)lineArray :(int) counter;
 - (void) addVarToData:(NSMutableArray*)lineArray :(int) counter;
-- (NSString*) searchForSymbolInDatastructure:(NSString*) symbol;
+
+- (void) createSignalDataStructure:(NSMutableArray*)vcdArray :(int)counterL;
+- (void) addSignalToDB:(int)signal :(NSString*)symbol;
+- (void) addTimeStepToDB:(NSInteger) timeStep;
+- (NSMutableArray*) searchForSymbolInDatastructure:(NSString*) symbol;
 
 - (void)allOut;
 

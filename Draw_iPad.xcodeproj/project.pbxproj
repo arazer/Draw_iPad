@@ -20,6 +20,7 @@
 		95C1FB3612DB8C12002FF80B /* ModuleNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 95C1FB3512DB8C12002FF80B /* ModuleNode.m */; };
 		95C4432912B11DD100D8B2CB /* simple.vcd in Resources */ = {isa = PBXBuildFile; fileRef = 95C4432812B11DD100D8B2CB /* simple.vcd */; };
 		95FBB4F312A4F33E0055C205 /* Draw2D.m in Sources */ = {isa = PBXBuildFile; fileRef = 95FBB4F212A4F33E0055C205 /* Draw2D.m */; };
+		982C61E312E07FA000614DCF /* SignalNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 982C61E212E07FA000614DCF /* SignalNode.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,8 @@
 		95C4432812B11DD100D8B2CB /* simple.vcd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = simple.vcd; sourceTree = "<group>"; };
 		95FBB4F112A4F33E0055C205 /* Draw2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Draw2D.h; path = ../Draw2D.h; sourceTree = "<group>"; };
 		95FBB4F212A4F33E0055C205 /* Draw2D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Draw2D.m; path = ../Draw2D.m; sourceTree = "<group>"; };
+		982C61E112E07FA000614DCF /* SignalNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignalNode.h; sourceTree = "<group>"; };
+		982C61E212E07FA000614DCF /* SignalNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignalNode.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +67,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				982C61E112E07FA000614DCF /* SignalNode.h */,
+				982C61E212E07FA000614DCF /* SignalNode.m */,
 				953B1A0C12DCA53D00FC2DFE /* VariableNode.h */,
 				953B1A0D12DCA53D00FC2DFE /* VariableNode.m */,
 				95C1FB3412DB8C12002FF80B /* ModuleNode.h */,
@@ -199,6 +204,7 @@
 				95C1F97F12D9E5C2002FF80B /* Parser.m in Sources */,
 				95C1FB3612DB8C12002FF80B /* ModuleNode.m in Sources */,
 				953B1A0E12DCA53D00FC2DFE /* VariableNode.m in Sources */,
+				982C61E312E07FA000614DCF /* SignalNode.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

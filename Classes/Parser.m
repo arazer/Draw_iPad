@@ -9,6 +9,7 @@
 #import "Parser.h"
 #import "ModuleNode.h"
 #import "VariableNode.h"
+#import "SignalNode.h"
 
 @implementation Parser
 
@@ -26,7 +27,7 @@
 		if (vcdArray != nil) {
 			[self makeTree:vcdArray];
 		} else {
-			NSLog(@"Array is already used.");
+			NSLog(@"Array is already in use.");
 		}
 	} else {
 		NSLog(@"File not found. Aborting.");
@@ -73,15 +74,18 @@
 	
 	data = [[NSMutableArray alloc] initWithCapacity:1];
 	
-	for (counterOne = 0; counterOne < [vcdArray count] ; counterOne++) {
+	for (counterLines = 0; counterLines < [vcdArray count] ; counterLines++) {
 		
-		NSMutableArray* secondArray = [vcdArray objectAtIndex:counterOne];
+		NSMutableArray* secondArray = [vcdArray objectAtIndex:counterLines];
 	
-		for (counterTwo = 0; counterTwo < [secondArray count]; counterTwo++) {
-			NSString* string = [secondArray objectAtIndex:counterTwo];
+		for (counterWords = 0; counterWords < [secondArray count]; counterWords++) {
+			NSString* string = [secondArray objectAtIndex:counterWords];
 			//set variables
 			if ([string isEqual:@"$scope"]) {
-				[self createHeadDatastructure:vcdArray :counterOne];
+				[self createHeadDatastructure:vcdArray :counterLines];
+			}
+			if ([string isEqual:@"$enddefinitions"]) {
+				[self createSignalDataStructure:vcdArray :counterLines];
 			}
 			//set signals for variables
 			
@@ -89,12 +93,12 @@
 	}
 }
 
-- (void) createHeadDatastructure:(NSMutableArray*)vcdArray :(int) counterO {
+- (void) createHeadDatastructure:(NSMutableArray*)vcdArray :(int) counterL {
 	BOOL abort = NO;
 	
-	for (counterO; counterO < [vcdArray count]; counterO++) {
+	for (counterL; counterL < [vcdArray count]; counterL++) {
 		
-		NSMutableArray* textArray = [vcdArray objectAtIndex:counterO];
+		NSMutableArray* textArray = [vcdArray objectAtIndex:counterL];
 
 		for (int i = 0; i < [textArray count]; i++) {
 			NSString* string = [textArray objectAtIndex:i];
@@ -118,8 +122,8 @@
 		}
 	}
 	//[self allOut];
-	NSString* search = [self searchForSymbolInDatastructure:@"1"];
-	NSLog(@"%@", search);
+	//NSString* search = [self searchForSymbolInDatastructure:@"1"];
+	//NSLog(@"%@", search);
 }
 
 - (void) addModToData:(NSMutableArray*)lineArray :(int) counter {
@@ -210,7 +214,71 @@
 	}
 }
 
-- (NSString*) searchForSymbolInDatastructure:(NSString*) symbol {
+- (void) createSignalDataStructure:(NSMutableArray*)vcdArray :(int)counterL {
+	BOOL abort = NO;
+	
+	counterL++;
+	
+	//array has an empty end. reasen for -1. loop goes to far in array without that
+	for (counterL; counterL < [vcdArray count]-1; counterL++) {
+		NSMutableArray* wordArray = [vcdArray objectAtIndex:counterL];
+		for (int i = 0; i < [wordArray count]; i++) {
+			if ([[wordArray objectAtIndex:i] isEqual:@"$end"]) {
+				//abort = YES;
+				break;
+			}
+			NSString* word = [wordArray objectAtIndex:i];
+			NSString* uniCharString = [NSString  stringWithFormat:@"%c", [word characterAtIndex:0]];
+			if ([uniCharString isEqual:@"#"]) {
+				
+				NSString* cuttedWord = [word stringByTrimmingCharactersInSet:
+									   [NSCharacterSet characterSetWithCharactersInString:@"#"]];
+				NSInteger timeStep = [cuttedWord intValue];
+				
+				[self addTimeStepToDB:timeStep];
+			}
+			
+			//NSLog(@"%@", [wordArray objectAtIndex:i]);
+		}	
+		if (abort) {
+			break;
+		}
+	}
+}
+
+- (void) addSignalToDB:(NSInteger)signal :(NSString*)symbol {}
+
+- (void) addTimeStepToDB:(NSInteger) timeStep {
+	NSLog(@"%i", timeStep);
+	
+	SignalNode* time = [[SignalNode alloc] init];
+	[time setTimeStep:timeStep];
+	
+	ModuleNode* modules = [data objectAtIndex:0];
+	
+	NSMutableArray* variableArray = [modules variables];
+	
+	for (int i = 0; i < [variableArray count]; i++) {
+		VariableNode* varNode = [variableArray objectAtIndex:i];
+		
+		if ([varNode signals] != nil) {
+			NSMutableArray* signalArray = [varNode signals];
+			[signalArray addObject:time];
+		
+		} else {
+			NSMutableArray* varNodeArray = [varNode varArray];
+			
+			for (int j = 0; j < [varNodeArray count]; j++) {
+				VariableNode* varArrayNode = [varNodeArray objectAtIndex:j];
+				NSMutableArray* varArrayNodeArray = [varArrayNode signals];
+				[varArrayNodeArray addObject:time];
+			
+			}
+		}
+	}
+}
+
+- (NSMutableArray*) searchForSymbolInDatastructure:(NSString*) symbol {
 	
 	//Caution! The search works only in one module for now
 	ModuleNode* modules = [data objectAtIndex:0];
@@ -222,7 +290,7 @@
 		
 		if ([[varNode symbol] isEqual:symbol]) {
 			
-			return [varNode varName];
+			return [varNode signals];
 		} else {
 			
 			NSMutableArray* varNodeArray = [varNode varArray];
@@ -231,7 +299,7 @@
 				VariableNode* varNodeArrayNode = [varNodeArray objectAtIndex:j];
 				if ([[varNodeArrayNode symbol] isEqual:symbol]) {
 			
-					return [varNodeArrayNode varName];
+					return [varNodeArrayNode signals];
 				}
 			}
 		}
