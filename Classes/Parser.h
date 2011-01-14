@@ -20,14 +20,15 @@
 }
 
 - (id) init;
-- (void)parseFile:(NSString*) filePath;
-- (BOOL)getFile:(NSString*) filePath;
-- (NSMutableArray*)convertFileToMutableArray:(NSString*) filePath;
-- (void)makeTree:(NSMutableArray*)vcdArray;
+- (void) parseFile:(NSString*) filePath;
+- (BOOL) getFile:(NSString*) filePath;
+- (NSMutableArray*) convertFileToMutableArray:(NSString*) filePath;
+- (void) makeTree:(NSMutableArray*)vcdArray;
 
-- (void)createHeadDatastructure:(NSMutableArray*)vcdArray :(int) counterO;
-- (void)addModToData:(NSMutableArray*)lineArray :(int) counter;
-- (void)addVarToData:(NSMutableArray*)lineArray :(int) counter;
+- (void) createHeadDatastructure:(NSMutableArray*)vcdArray :(int) counterO;
+- (void) addModToData:(NSMutableArray*)lineArray :(int) counter;
+- (void) addVarToData:(NSMutableArray*)lineArray :(int) counter;
+- (NSString*) searchForSymbolInDatastructure:(NSString*) symbol;
 
 - (void)allOut;
 

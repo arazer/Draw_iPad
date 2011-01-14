@@ -68,7 +68,7 @@
 	return finalArrayLineWords;
 }
 
-- (void)makeTree:(NSMutableArray*)vcdArray {
+- (void) makeTree:(NSMutableArray*)vcdArray {
 	//gets array and converts it into a tree structure
 	
 	data = [[NSMutableArray alloc] initWithCapacity:1];
@@ -79,14 +79,17 @@
 	
 		for (counterTwo = 0; counterTwo < [secondArray count]; counterTwo++) {
 			NSString* string = [secondArray objectAtIndex:counterTwo];
+			//set variables
 			if ([string isEqual:@"$scope"]) {
 				[self createHeadDatastructure:vcdArray :counterOne];
 			}
+			//set signals for variables
+			
 		}
 	}
 }
 
-- (void)createHeadDatastructure:(NSMutableArray*)vcdArray :(int) counterO {
+- (void) createHeadDatastructure:(NSMutableArray*)vcdArray :(int) counterO {
 	BOOL abort = NO;
 	
 	for (counterO; counterO < [vcdArray count]; counterO++) {
@@ -114,7 +117,9 @@
 			break;
 		}
 	}
-	[self allOut];
+	//[self allOut];
+	NSString* search = [self searchForSymbolInDatastructure:@"1"];
+	NSLog(@"%@", search);
 }
 
 - (void) addModToData:(NSMutableArray*)lineArray :(int) counter {
@@ -203,6 +208,35 @@
 
 		[variablesArray addObject:varNode];
 	}
+}
+
+- (NSString*) searchForSymbolInDatastructure:(NSString*) symbol {
+	
+	//Caution! The search works only in one module for now
+	ModuleNode* modules = [data objectAtIndex:0];
+
+	NSMutableArray* variableArray = [modules variables];
+	
+	for (int i = 0; i < [variableArray count]; i++) {
+		VariableNode* varNode = [variableArray objectAtIndex:i];
+		
+		if ([[varNode symbol] isEqual:symbol]) {
+			
+			return [varNode varName];
+		} else {
+			
+			NSMutableArray* varNodeArray = [varNode varArray];
+			
+			for (int j = 0; j < [varNodeArray count]; j++) {
+				VariableNode* varNodeArrayNode = [varNodeArray objectAtIndex:j];
+				if ([[varNodeArrayNode symbol] isEqual:symbol]) {
+			
+					return [varNodeArrayNode varName];
+				}
+			}
+		}
+	}
+	return [[NSString alloc] initWithFormat:@"%@ wurde nicht gefunden", symbol];
 }
 
 - (void) allOut {
