@@ -334,7 +334,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>9571F6E712E0D8C400904EC2</string>
+										<string>958C246812E0E1C10037BD81</string>
 										<key>history</key>
 										<array>
 											<string>9572D30212A7D1D800F6FC5B</string>
@@ -352,7 +352,7 @@
 											<string>9571F64912E068BC00904EC2</string>
 											<string>9571F67212E06F2C00904EC2</string>
 											<string>9571F6DC12E0D86A00904EC2</string>
-											<string>9571F6DD12E0D86A00904EC2</string>
+											<string>958C246612E0E1B60037BD81</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -366,18 +366,18 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1015, 591}}</string>
+								<string>{{0, 0}, {1015, 588}}</string>
 								<key>RubberWindowFrame</key>
 								<string>0 43 1280 735 0 0 1280 778 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>591pt</string>
+							<string>588pt</string>
 						</dict>
 						<dict>
 							<key>Proportion</key>
-							<string>98pt</string>
+							<string>101pt</string>
 							<key>Tabs</key>
 							<array>
 								<dict>
@@ -391,7 +391,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1015, 71}}</string>
+										<string>{{10, 27}, {1015, 74}}</string>
 										<key>RubberWindowFrame</key>
 										<string>0 43 1280 735 0 0 1280 778 </string>
 									</dict>
@@ -424,7 +424,7 @@
 										<key>PBXProjectModuleLabel</key>
 										<string>SCM Results</string>
 										<key>SCMActivityViewerShowingDefaultKey</key>
-										<string>{{0, 28}, {998, 302}}</string>
+										<string>{{0, 5}, {998, 412}}</string>
 									</dict>
 									<key>GeometryConfiguration</key>
 									<dict>
@@ -477,11 +477,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>9571F6DF12E0D86A00904EC2</string>
+				<string>958C243912E0E0A50037BD81</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>9571F6E012E0D86A00904EC2</string>
+				<string>958C243A12E0E0A50037BD81</string>
 				<string>95FBB4E712A4F2A80055C205</string>
-				<string>9571F6E112E0D86A00904EC2</string>
+				<string>958C243B12E0E0A50037BD81</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -630,13 +630,13 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>9571F6E212E0D86A00904EC2</string>
+				<string>958C243C12E0E0A50037BD81</string>
 				<string>1CCC7628064C1048000F2A68</string>
 				<string>1CCC7629064C1048000F2A68</string>
-				<string>9571F6E312E0D86A00904EC2</string>
-				<string>9571F6E412E0D86A00904EC2</string>
-				<string>9571F6E512E0D86A00904EC2</string>
-				<string>9571F6E612E0D86A00904EC2</string>
+				<string>958C243D12E0E0A50037BD81</string>
+				<string>958C243E12E0E0A50037BD81</string>
+				<string>958C243F12E0E0A50037BD81</string>
+				<string>958C244012E0E0A50037BD81</string>
 				<string>95FBB4E712A4F2A80055C205</string>
 			</array>
 			<key>ToolbarConfigUserDefaultsMinorVersion</key>

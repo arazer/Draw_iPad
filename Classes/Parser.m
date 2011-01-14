@@ -91,9 +91,10 @@
 			
 		}
 	}
+	[self allOut];
 }
 
-- (void) createHeadDatastructure:(NSMutableArray*)vcdArray :(int) counterL {
+- (void) createHeadDatastructure:(NSMutableArray*)vcdArray:(int) counterL {
 	BOOL abort = NO;
 	
 	for (counterL; counterL < [vcdArray count]; counterL++) {
@@ -126,7 +127,7 @@
 	//NSLog(@"%@", search);
 }
 
-- (void) addModToData:(NSMutableArray*)lineArray :(int) counter {
+- (void) addModToData:(NSMutableArray*)lineArray:(int) counter {
 	//adding module to datastructure
 	NSLog(@"%@",[lineArray objectAtIndex:counter]);
 	
@@ -136,7 +137,7 @@
 	[data addObject:modNode];
 }
 
-- (void) addVarToData:(NSMutableArray*)lineArray :(int) counter {
+- (void) addVarToData:(NSMutableArray*)lineArray:(int) counter {
 	//adding variable to datastructure
 	//What if no module exists?!
 	//This method only works in vcd format!
@@ -214,7 +215,7 @@
 	}
 }
 
-- (void) createSignalDataStructure:(NSMutableArray*)vcdArray :(int)counterL {
+- (void) createSignalDataStructure:(NSMutableArray*) vcdArray:(int) counterL {
 	BOOL abort = NO;
 	
 	counterL++;
@@ -246,10 +247,10 @@
 	}
 }
 
-- (void) addSignalToDB:(NSInteger)signal :(NSString*)symbol {}
+- (void) addSignalToDB:(NSInteger)signal :(NSString*) symbol {}
 
 - (void) addTimeStepToDB:(NSInteger) timeStep {
-	NSLog(@"%i", timeStep);
+	//NSLog(@"%i", timeStep);
 	
 	SignalNode* time = [[SignalNode alloc] init];
 	[time setTimeStep:timeStep];
@@ -318,8 +319,10 @@
 	
 		for (int j = 0; j < [mutA count]; j++) {
 			VariableNode* varNodeInArray = [mutA objectAtIndex:j];
+			NSMutableArray* signals = [varNodeInArray signals];
+			SignalNode* signal = [signals objectAtIndex:0];
 	
-			NSLog(@"ArrayVariable: %@ und Symbol: %@",[varNodeInArray varName], [varNodeInArray symbol]);
+			NSLog(@"ArrayVariable: %@ und Symbol: %@ und TimeStep: %d",[varNodeInArray varName], [varNodeInArray symbol], [signal timeStep]);
 		}
 	}
 }
