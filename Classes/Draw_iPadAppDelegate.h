@@ -16,7 +16,6 @@
 	IBOutlet UITextView *textView;
 }
 
-- (void)fileRead:(NSString *)path;
 - (IBAction) pressButton:(id)sender;
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;

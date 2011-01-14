@@ -16,9 +16,6 @@
 
 - (id) init;
 
-- (void) setVariables;
-- (NSMutableArray*) getVariables;
-
 @property(nonatomic, retain) NSString* name;
 @property(nonatomic, retain) NSMutableArray* variables;
 

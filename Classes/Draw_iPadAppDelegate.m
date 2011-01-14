@@ -32,21 +32,9 @@
     return YES;
 }
 
-- (void)fileRead:(NSString*)path {
-	
-		
-
-	//CFTreeCreate
-	//CFTreeContext structure contains the program-defined data and callbacks needed to describe, retain, and release that data.
-	//CFTreeCreate(<#CFAllocatorRef allocator#>, <#const CFTreeContext *context#>)
-}
-
 - (IBAction) pressButton:(id)sender {
 	
 	[window addSubview:textView];
-	textView.text = [NSString stringWithContentsOfFile:@"/Users/dennis/Downloads/very_simple.vcd"];
-
-	
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

@@ -25,11 +25,9 @@
 		NSMutableArray* vcdArray = [self convertFileToMutableArray:filePath];
 		if (vcdArray != nil) {
 			[self makeTree:vcdArray];
-		}else {
-			NSLog(@"Array is empty.");
+		} else {
+			NSLog(@"Array is already used.");
 		}
-
-		
 	} else {
 		NSLog(@"File not found. Aborting.");
 	}
@@ -38,17 +36,16 @@
 
 - (BOOL)getFile:(NSString*) filePath {
 	//check existence of the file
-	
-	//not the best code..
-	NSFileManager* fileExists = [[NSFileManager alloc] fileExistsAtPath:filePath];
-	return fileExists;
+	return [[NSFileManager alloc] fileExistsAtPath:filePath];
 }
 
 - (NSMutableArray*)convertFileToMutableArray:(NSString*) filePath {
 
 	NSLog(@"Pfad der Datei: %@", filePath);
 	
-	NSString* fileOut = [NSString stringWithContentsOfFile:filePath];
+	NSString* fileOut = [NSString stringWithContentsOfFile:filePath
+									encoding: NSUTF8StringEncoding
+									error: nil];
 	
 	NSArray* arrayFromFileWithLineIndex = [fileOut componentsSeparatedByString:@"\n"];
 	NSMutableArray* finalArrayLineWords = [[NSMutableArray alloc] initWithCapacity:1];	
@@ -111,16 +108,13 @@
 			if ([string isEqual:@"$var"]) {
 				//i++;
 				[self addVarToData:textArray :i+1];
-				
 			}
-			
 		}
 		if (abort) {
 			break;
 		}
 	}
 	[self allOut];
-	
 }
 
 - (void) addModToData:(NSMutableArray*)lineArray :(int) counter {
@@ -131,7 +125,6 @@
 	[modNode setName:[lineArray objectAtIndex:counter]];
 	[modNode setVariables:[[NSMutableArray alloc] initWithCapacity:1]];
 	[data addObject:modNode];
-	
 }
 
 - (void) addVarToData:(NSMutableArray*)lineArray :(int) counter {
@@ -152,7 +145,6 @@
 	counter++;
 	
 	NSString* varName = [lineArray objectAtIndex:counter];
-
 
 	//if variable is an array variable
 	if (![[lineArray objectAtIndex:counter+1] isEqual:@"$end"]) {
@@ -199,9 +191,7 @@
 			
 			[varArray addObject:varArrayNode];
 			[variablesArray addObject:varNode];
-
 		}
-		
 	} else {
 		
 		VariableNode* varNode = [[VariableNode alloc] init];
@@ -212,32 +202,24 @@
 		[varNode setSignals:[[NSMutableArray alloc] initWithCapacity:1]];
 
 		[variablesArray addObject:varNode];
-	
 	}
 }
 
-- (void)allOut {
+- (void) allOut {
 	ModuleNode* modules = [data objectAtIndex:0];
 	NSMutableArray* variables = [modules variables];
-	VariableNode* var = [variables objectAtIndex:2];
-	NSLog(@"%@",[var varName]);
+	for (int i = 0; i < [variables count]; i++) {
+		
+	VariableNode* var = [variables objectAtIndex:i];
+	NSLog(@"Variable: %@ und Symbol: %@",[var varName], [var symbol]);
 	NSMutableArray* mutA = [var varArray];
-	int c = [mutA count];
 	
-	VariableNode* varNodeInArray = [mutA objectAtIndex:1];
+		for (int j = 0; j < [mutA count]; j++) {
+			VariableNode* varNodeInArray = [mutA objectAtIndex:j];
 	
-	NSLog(@"Name: %@ und Symbol: %@",[varNodeInArray varName], [varNodeInArray symbol]);
-	NSLog(@"%d",c);
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+			NSLog(@"ArrayVariable: %@ und Symbol: %@",[varNodeInArray varName], [varNodeInArray symbol]);
+		}
+	}
 }
 
 @end
