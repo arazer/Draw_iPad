@@ -222,24 +222,37 @@
 	
 	//array has an empty end. reasen for -1. loop goes to far in array without that
 	for (counterL; counterL < [vcdArray count]-1; counterL++) {
-		NSMutableArray* wordArray = [vcdArray objectAtIndex:counterL];
-		for (int i = 0; i < [wordArray count]; i++) {
-			if ([[wordArray objectAtIndex:i] isEqual:@"$end"]) {
+		for (int i = 0; i < [[vcdArray objectAtIndex:counterL] count]; i++) {
+			if ([[[vcdArray objectAtIndex:counterL] objectAtIndex:i] isEqual:@"$end"]) {
 				//abort = YES;
 				break;
 			}
-			NSString* word = [wordArray objectAtIndex:i];
+			
+			NSString* word = [[vcdArray objectAtIndex:counterL] objectAtIndex:i];
 			NSString* uniCharString = [NSString  stringWithFormat:@"%c", [word characterAtIndex:0]];
 			if ([uniCharString isEqual:@"#"]) {
 				
-				NSString* cuttedWord = [word stringByTrimmingCharactersInSet:
-									   [NSCharacterSet characterSetWithCharactersInString:@"#"]];
-				NSInteger timeStep = [cuttedWord intValue];
+				NSInteger timeStep = [[word stringByTrimmingCharactersInSet:
+									   [NSCharacterSet characterSetWithCharactersInString:@"#"]] intValue];
 				
 				[self addTimeStepToDB:timeStep];
+			} else if ([[[vcdArray objectAtIndex:counterL] objectAtIndex:i] isEqual:@"$dumpvars"]) {
+				counterL++;
+				//only for dumpvariables
+				while (![[[vcdArray objectAtIndex:counterL] objectAtIndex:i] isEqual:@"$end"]) {
+					//getting string in line
+					NSString* stringAtTarget = [[vcdArray objectAtIndex:counterL] objectAtIndex:i];
+					//cut off the intvalue
+					NSInteger signal = [[NSString stringWithFormat:@"%c", [stringAtTarget characterAtIndex:0]] intValue];
+					//cut of the symbol
+					NSString* symbol = [NSString stringWithFormat:@"%c", [stringAtTarget characterAtIndex:1]];
+					//add it to variable
+					[self addSignalToDB:signal :symbol];
+					
+					counterL++;
+				}
 			}
 			
-			//NSLog(@"%@", [wordArray objectAtIndex:i]);
 		}	
 		if (abort) {
 			break;
@@ -247,7 +260,23 @@
 	}
 }
 
-- (void) addSignalToDB:(NSInteger)signal :(NSString*) symbol {}
+- (void) addSignalToDB:(NSInteger)signal :(NSString*) symbol {
+	NSMutableArray* arrayAtVariable = [self searchForSymbolInDatastructure:symbol];
+	SignalNode* signalN = [[SignalNode alloc] init];
+	BOOL finalSignal;
+	switch (signal) {
+		case 0:
+			finalSignal = NO;
+			break;
+		case 1:
+			finalSignal = YES;
+			break;
+		default:
+			break;
+	}
+	[signalN setSignal:finalSignal];
+	[arrayAtVariable addObject:signalN];
+}
 
 - (void) addTimeStepToDB:(NSInteger) timeStep {
 	//NSLog(@"%i", timeStep);
@@ -314,15 +343,18 @@
 	for (int i = 0; i < [variables count]; i++) {
 		
 	VariableNode* var = [variables objectAtIndex:i];
-	NSLog(@"Variable: %@ und Symbol: %@",[var varName], [var symbol]);
+	NSMutableArray* signalInVariable = [var signals];
+	SignalNode* signalFromVaribale = [signalInVariable objectAtIndex:1];
+	
+	NSLog(@"Variable: %@ und Symbol: %@ und TimeStep/Signal: %@",[var varName], [var symbol], [signalFromVaribale getSignal]?@"YES":@"NO");
 	NSMutableArray* mutA = [var varArray];
 	
 		for (int j = 0; j < [mutA count]; j++) {
 			VariableNode* varNodeInArray = [mutA objectAtIndex:j];
-			NSMutableArray* signals = [varNodeInArray signals];
-			SignalNode* signal = [signals objectAtIndex:0];
+			NSMutableArray* signalsFromArrayVariable = [varNodeInArray signals];
+			SignalNode* signalInAV = [signalsFromArrayVariable objectAtIndex:1];
 	
-			NSLog(@"ArrayVariable: %@ und Symbol: %@ und TimeStep: %d",[varNodeInArray varName], [varNodeInArray symbol], [signal timeStep]);
+			NSLog(@"ArrayVariable: %@ und Symbol: %@ und TimeStep/Signal: %@",[varNodeInArray varName], [varNodeInArray symbol], [signalInAV getSignal]?@"YES":@"NO");
 		}
 	}
 }
