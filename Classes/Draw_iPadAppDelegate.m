@@ -9,6 +9,9 @@
 #import "Draw_iPadAppDelegate.h"
 #import "Draw_iPadViewController.h"
 #import "Parser.h"
+#import "SignalNode.h"
+#import "VariableNode.h";
+#import "ModuleNode.h";
 
 @implementation Draw_iPadAppDelegate
 
@@ -32,10 +35,6 @@
     return YES;
 }
 
-- (IBAction) pressButton:(id)sender {
-	
-	[window addSubview:textView];
-}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     /*

@@ -16,8 +16,6 @@
 	IBOutlet UITextView *textView;
 }
 
-- (IBAction) pressButton:(id)sender;
-
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet Draw_iPadViewController *viewController;
 

@@ -84,10 +84,10 @@
 			if ([string isEqual:@"$scope"]) {
 				[self createHeadDatastructure:vcdArray :counterLines];
 			}
+			//set signals for variables
 			if ([string isEqual:@"$enddefinitions"]) {
 				[self createSignalDataStructure:vcdArray :counterLines];
 			}
-			//set signals for variables
 			
 		}
 	}
@@ -109,12 +109,10 @@
 			}
 			
 			if ([string isEqual:@"module"]) {
-				//i++;
 				[self addModToData:textArray :i+1];
 			}
 			
 			if ([string isEqual:@"$var"]) {
-				//i++;
 				[self addVarToData:textArray :i+1];
 			}
 		}
@@ -122,15 +120,11 @@
 			break;
 		}
 	}
-	//[self allOut];
-	//NSString* search = [self searchForSymbolInDatastructure:@"1"];
-	//NSLog(@"%@", search);
 }
 
 - (void) addModToData:(NSMutableArray*)lineArray:(int) counter {
-	//adding module to datastructure
-	NSLog(@"%@",[lineArray objectAtIndex:counter]);
 	
+	//adding module to datastructure
 	ModuleNode* modNode = [[ModuleNode alloc] init];
 	[modNode setName:[lineArray objectAtIndex:counter]];
 	[modNode setVariables:[[NSMutableArray alloc] initWithCapacity:1]];
@@ -236,22 +230,35 @@
 									   [NSCharacterSet characterSetWithCharactersInString:@"#"]] intValue];
 				
 				[self addTimeStepToDB:timeStep];
+			
 			} else if ([[[vcdArray objectAtIndex:counterL] objectAtIndex:i] isEqual:@"$dumpvars"]) {
-				counterL++;
 				//only for dumpvariables
+
+				counterL++;
+				
 				while (![[[vcdArray objectAtIndex:counterL] objectAtIndex:i] isEqual:@"$end"]) {
 					//getting string in line
 					NSString* stringAtTarget = [[vcdArray objectAtIndex:counterL] objectAtIndex:i];
 					//cut off the intvalue
 					NSInteger signal = [[NSString stringWithFormat:@"%c", [stringAtTarget characterAtIndex:0]] intValue];
-					//cut of the symbol
+					//cut off the symbol
 					NSString* symbol = [NSString stringWithFormat:@"%c", [stringAtTarget characterAtIndex:1]];
 					//add it to variable
 					[self addSignalToDB:signal :symbol];
 					
 					counterL++;
+					
+					} 
+				} else {
+					//getting string in line
+					NSString* stringAtTarget = [[vcdArray objectAtIndex:counterL] objectAtIndex:i];
+					//cut off the intvalue
+					NSInteger signal = [[NSString stringWithFormat:@"%c", [stringAtTarget characterAtIndex:0]] intValue];
+					//cut off the symbol
+					NSString* symbol = [NSString stringWithFormat:@"%c", [stringAtTarget characterAtIndex:1]];
+					//add it to variable
+					[self addSignalToDB:signal :symbol];
 				}
-			}
 			
 		}	
 		if (abort) {
@@ -275,6 +282,8 @@
 			break;
 	}
 	[signalN setSignal:finalSignal];
+	NSLog(@"Signal %d zu %@ hinzugefügt", signal, symbol);
+
 	[arrayAtVariable addObject:signalN];
 }
 
@@ -340,23 +349,43 @@
 - (void) allOut {
 	ModuleNode* modules = [data objectAtIndex:0];
 	NSMutableArray* variables = [modules variables];
-	for (int i = 0; i < [variables count]; i++) {
+	
+	VariableNode* var = [variables objectAtIndex:0];
+	//NSMutableArray* varArray = [var varArray];
 		
-	VariableNode* var = [variables objectAtIndex:i];
-	NSMutableArray* signalInVariable = [var signals];
-	SignalNode* signalFromVaribale = [signalInVariable objectAtIndex:1];
+	NSMutableArray* signals = [var signals];
 	
-	NSLog(@"Variable: %@ und Symbol: %@ und TimeStep/Signal: %@",[var varName], [var symbol], [signalFromVaribale getSignal]?@"YES":@"NO");
-	NSMutableArray* mutA = [var varArray];
+	NSLog(@"Name: %@ und Symbol: %@", [var varName], [var symbol]);
+	int target = 3;
+	SignalNode *testSignal = [signals objectAtIndex:target];
 	
-		for (int j = 0; j < [mutA count]; j++) {
-			VariableNode* varNodeInArray = [mutA objectAtIndex:j];
-			NSMutableArray* signalsFromArrayVariable = [varNodeInArray signals];
-			SignalNode* signalInAV = [signalsFromArrayVariable objectAtIndex:1];
-	
-			NSLog(@"ArrayVariable: %@ und Symbol: %@ und TimeStep/Signal: %@",[varNodeInArray varName], [varNodeInArray symbol], [signalInAV getSignal]?@"YES":@"NO");
+	NSLog(@"%d. Objekt: %@", target, [testSignal getSignal]?@"YES":@"NO");
+	for (int i = 0; i < [signals count];  i++) {
+		SignalNode* signal = [signals objectAtIndex:i];
+		if ([signal timeStep] != nil) {
+			NSLog(@"Time: %d", [signal timeStep]);
+		} else {
+			NSLog(@"%@", [signal getSignal]?@"YES":@"NO");
 		}
 	}
-}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	}
 
 @end
